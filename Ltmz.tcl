@@ -65,10 +65,13 @@ proc assemble s {
 }
 proc n s {expr {[scan $s %d d]?$s&65535:$s}}
 proc END "" {lappend ::b F$::fc:;incr ::fc}
-proc GOSUB n {lappend ::b "call K$n"}
-proc GOTO n {lappend ::b "jp K$n"}
+proc GOSUB n {lappend ::b call K$n}
+proc GOTO n {lappend ::b jp K$n}
 proc IF {a o b} {lappend ::b "ld [n $a] by [n $b] $o F$::fc"}
-proc INPUT "" {lappend ::b "call Input"}
+proc INIT args {
+ lmap {x y} $args {append n $x;lappend w $y;lappend c ld_dem inc ex st $x ex}
+ lappend ::b "call I$n $w";set ::v(I$n:) "pop $c jphl"}
+proc INPUT "" {lappend ::b call Input}
 proc K n {lappend ::b K$n:}
 proc LET {a e b "o 0" "c 0"} {
  lappend ::b "ld [n $b][
@@ -81,9 +84,9 @@ proc ON {a g args} {
 proc PRINS s {lappend ::b "call Prins $s"}
 proc PRINT s {lappend ::b "call Print $s"}
 proc RETURN "" {lappend ::b ret}
-proc SKIP "" {lappend ::b "jp N$::nc"}
-proc SYSTEM "" {lappend ::b "jp Boot"}
-# :: -strings, ::v -variables, ::a -addresses
+proc SKIP "" {lappend ::b jp N$::nc}
+proc SYSTEM "" {lappend ::b jp Boot}
+# :: -strings, ::a -addresses, ::v -variables and struct
 proc compile s {
  foreach {_ x} [regexp -all -inline {"(.*?)"} $s] {
   regsub {".*?"} $s \ %[incr i] s;set ::(%$i) [regsub -all \n $x \r\n]
@@ -99,8 +102,8 @@ proc compile s {
  set ::fc 0;set ::nc 0;eval "K 0;$s"
  lmap x [regexp -all -inline {_\w+} [regsub -all {(GOSUB|GOTO|K) [^;]*} $s ""
   ]] {set ::v($x:) 0}
- assemble " $::runtime [join $::b] [
-  lsort -dictionary -stride 2 [array get ::v]]"
+ assemble " $::runtime [join $::b] [join [
+  lsort -dictionary -stride 2 [array get ::v]]]"
 }
 
 set runtime [join "

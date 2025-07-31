@@ -1,3 +1,4 @@
+
  REM Text adventure game designed by dex, modifications by lukz
  GOSUB31
 K1
@@ -119,16 +120,17 @@ NEXT
 
 K130:GOSUB131:IFu>=1:GOSUB140:IFh<1:SKIP:END
  PRINT"Nemas to":RETURN
-K131:LETu=0
- MATCHd"z":IFd<1:LETu=1:RETURN:END
- MATCHd"s":IFd<1:LETu=2:RETURN:END
- MATCHd"c":IFd<1:LETu=3:RETURN:END
- MATCHd"k":IFd<1:LETu=4:RETURN:END
- MATCHd"m":IFd<1:LETu=5:RETURN:END
- MATCHd"p":IFd<1:LETu=6:RETURN:END
- MATCHd"t":IFd<1:LETu=7:RETURN:END
- MATCHd"j":IFd<1:LETu=8:RETURN:END
- MATCHd"r":IFd<1:LETu=9:END:RETURN
+K131:LETu=1:MATCHd"z":IFd>0
+ LETu=2:MATCHd"s":IFd>0
+ LETu=3:MATCHd"c":IFd>0
+ LETu=4:MATCHd"k":IFd>0
+ LETu=5:MATCHd"m":IFd>0
+ LETu=6:MATCHd"p":IFd>0
+ LETu=7:MATCHd"t":IFd>0
+ LETu=8:MATCHd"j":IFd>0
+ LETu=9:MATCHd"r":IFd>0
+ LETu=0
+ END:RETURN
 K140:ONuGOTO 141,142,143,144,145,146,147,148,149
 K141:LETh=r1:RETURN
 K142:LETh=r2:RETURN
@@ -194,39 +196,39 @@ K1310:K1320:K1330:K1340:K1350:K1360:K1370:K1380:K1390
 
 K1009:PRINS"Jsi v Jindrichove Hradci":RETURN
 K1010:PRINT"Jsi v Ceskych Budejovicich u indicke restaurace, ta je na vychod od tebe."
- LETs=2:LETj=3:LETv=4:LETz=0
+ INITs 2,j 3,v 4,z 0
  RETURN
 K1020:PRINS"Jsi v Ceskych Budejovicich severne od indicke restaurace. Okna v patre jsou
 pootevrena, ":IFf1==0:PRINT"za nimi se mihaji lide.":END
  IFf1!=0:PRINT"uvnitr nikoho nevidis.":END
- LETs=0:LETj=1:LETv=0:LETz=0
+ INITs 0,j 1,v 0,z 0
  RETURN
 K1030:PRINT"Jsi v Ceskych Budejovicich u zdeformovaneho casoprostoru jizne od indicke
 restaurace. Sever je nejen na severu, ale i na zapade. Tezko rict, co je na
 jihu."
- LETs=1:LETj=7:LETv=0:LETz=1
+ INITs 1,j 7,v 0,z 1
  IFr5==0:LETj=14:END
  RETURN
 K1040:PRINT"Jsi v indicke restauraci v Ceskych Budejovicich. Na severu jsou schody nahoru,
 na vychode kuchyne."
- LETs=5:LETj=0:LETv=6:LETz=1
+ INITs 5,j 0,v 6,z 1
  RETURN
 K1050:PRINT"Jsi nad indickou restauraci v Ceskych Budejovicich."
  IFf1==0:PRINT"Pobiha tu nejaky nepalsky mafian, jeho ochranka te shodila ze schodu dolu.":LETm=4:GOTO1040:END
  IFf1!=0:PRINT"Je tu liduprazdno.":END
- LETs=0:LETj=4:LETv=0:LETz=0
+ INITs 0,j 4,v 0,z 0
  RETURN
 K1060:PRINT"Jsi v kuchyni indicke restaurace v Ceskych Budejovicich. V rozpalenych hrncich
 to klokota."
- LETs=0:LETj=0:LETv=0:LETz=4
+ INITs 0,j 0,v 0,z 4
  RETURN
 K1070:PRINT"Jsi na namesti v Ceskych Budejovicich. Nad poradkem tu bdi kamery a policejni
 hlidka. Na zapad se jde k vystavisti, na sever k indicke restauraci, na vychod
 k autobusovemu nadrazi."
- LETs=3:LETj=48:LETv=13:LETz=30
+ INITs 3,j 48,v 13,z 30
  RETURN
 K1080:PRINT"Jsi na ulici u vystaviste, pred jazykovou skolou na severu."
- LETs=9:LETj=49:LETv=30:LETz=0
+ INITs 9,j 49,v 30,z 0
  IFf2==0:PRINT"Ten smer ti ale blokuje velky vrcici pes.":LETs=0:END
  IFf2==1:PRINT"Ve vzduchu je citit neco jako peprovy sprej.":END
  RETURN
@@ -236,34 +238,34 @@ proud. "
  IFf3!=0:PRINT"Logout sedi u ZX Spectra a tvori diskovy magazin Restore.":END
  PRINT"Na jihu je vchod, na severu party place, na vychode kuchynka, na zapade
 mistnost na spani."
- LETs=16:LETj=8:LETv=10:LETz=11
+ INITs 16,j 8,v 10,z 11
  RETURN
 K1100:PRINT"Jsi v kychynce, krome vune kavy a caje tu je atarista."
  IFf4==0:PRINT"Atarista posloucha hudbu od Poisona a tvari se kysele.":END
  IFf4!=0:PRINT"Atarista posloucha AY hudbu z vedlejsi mistnosti a usmiva se.":END
- LETs=0:LETj=12:LETv=0:LETz=9
+ INITs 0,j 12,v 0,z 9
  RETURN
 K1110:PRINT"Jsi na JHConu ve spaci mistnosti. Na zemi jsou spacaky."
- LETs=0:LETj=0:LETv=9:LETz=0
+ INITs 0,j 0,v 9,z 0
  RETURN
 K1120:PRINT"Jsi na zachode jazykove skoly. Toaletni papir tu neni."
- LETs=10:LETj=0:LETv=0:LETz=0
+ INITs 10,j 0,v 0,z 0
  RETURN
 K1130:PRINT"Jsi v chodbe autobusoveho nadrazi. Na zdi je automat na jizdenky. Na jihu je
 kumbal pro uklizecky.":IFf5==0:PRINT"Vchod k nastupistim na vychode blokuje spici bezdomovec.":END
  IFf5==1:PRINT"Vchod k nastupistim na vychode blokuje bezdomovec a lemta pivo, jako kdyby byla
 lahev bezedna.":END
  IFf5>=2:PRINT"Na vychode jsou nastupiste.":END
- LETs=0:LETj=19:LETv=0:LETz=7:IFf5>=2:LETv=15:END
+ INITs 0,j 19,v 0,z 7:IFf5>=2:LETv=15:END
  RETURN
 K1140:PRINT"Ocitl ses v deformovanem casoprostoru. Vidis rychlost svetla i magneticke
 silocary."
- LETs=3:LETj=7:LETv=7:LETz=7
+ INITs 3,j 7,v 7,z 7
  RETURN
 K1150:PRINT"Jsi ve vychodu autobusoveho nadrazi, na vychode je nastupiste."
  IFr5==0:PRINT"Neco v tve kapse rozeznelo alarm bezpecnostniho ramu. Policista te vyvedl ven.":LETm=7:GOTO1070:END
  PRINT"U bezpecnostniho ramu tu hlida policista."
- LETs=0:LETj=0:LETv=20:LETz=13
+ INITs 0,j 0,v 20,z 13
  RETURN
 K1159:PRINT"Jsi v ucebne. Rozleha se tu AY hudba.":RETURN
 K1160:GOSUB1159
@@ -273,7 +275,7 @@ K1160:GOSUB1159
  IFx1==4:PRINT"Mike a Ellvis ti zdalky ukazuji Amstrad Plus.":END
  IFx1==5:PRINT"Vsiml sis Ciza, asi proto, ze slapl na kabel a vypnul se mu pocitac.":END
  LETx1=x1+1:IFx1==6:LETx1=1:END
- LETs=0:LETj=9:LETv=17:LETz=18
+ INITs 0,j 9,v 17,z 18
  RETURN
 K1170:PRINT"Jsi v ucebne u tabule. Rozleha se tu AY hudba."
  IFx2==1:PRINT"Pribehl Logout, mrkl na tabuli a zase zmizel.":END
@@ -282,7 +284,7 @@ K1170:PRINT"Jsi v ucebne u tabule. Rozleha se tu AY hudba."
  IFx2==4:PRINT"Aki spustila dalsi hudbu.":END
  IFx2==5:PRINT"Dizzy vypustil zase dalsi lebku, Martin Cerny ji sleduje.":END
  LETx2=x2+1:IFx2==6:LETx2=1:END
- LETs=0:LETj=0:LETv=0:LETz=16
+ INITs 0,j 0,v 0,z 16
  RETURN
 K1180:GOSUB1159
  IFx3==1:PRINT"Na stole lezi Silliconuv opusteny Commodore.":END
@@ -291,143 +293,143 @@ K1180:GOSUB1159
  IFx3==4:PRINT"Mira ti zacal ukazovat fotky a pry - muzeum jsi uz videl?":END
  IFx3==5:PRINT"PG a Krupkaj jsou zabrani do hovoru.":END
  LETx3=x3+1:IFx3==6:LETx3=1:END
- LETs=0:LETj=0:LETv=16:LETz=0
+ INITs 0,j 0,v 16,z 0
  RETURN
 K1190:PRINT"Jsi v kumbalu pro uklizecky, ale nejsi uklizecka."
  IFf6==0:PRINT"Za roh neni videt.":END
- LETs=13:LETj=0:LETv=0:LETz=0
+ INITs 13,j 0,v 0,z 0
  RETURN
 K1200:PRINT"Z nastupiste jsi nastoupil do autobusu."
  IFr8!=0:PRINT"Bez jizdenky te ale ridic vyvedl ven.":LETm=15:GOTO1150:END
  PRINT"Ani sis nevsiml a jsi v Jindrichove Hradci."
- LETs=0:LETj=0:LETv=0:LETz=21
+ INITs 0,j 0,v 0,z 21
  RETURN
 K1210:LETr8=100
  GOSUB1009:PRINT" pod gymnaziem Vitezslava Novaka."
- LETs=22:LETj=59:LETv=50:LETz=40
+ INITs 22,j 59,v 50,z 40
  RETURN
 K1220:GOSUB1009:PRINT", na severu je nadrazi, na vychode sidliste, na jih se
 jde do centra."
- LETs=23:LETj=21:LETv=26:LETz=25
+ INITs 23,j 21,v 26,z 25
  RETURN
 K1230:GOSUB1009:PRINT" u nadrazni budovy, na severu jsou nastupiste, na
 vychode autobusove nadrazi a uzkokolejka, na jih se jde do centra."
- LETs=24:LETj=22:LETv=27:LETz=0
+ INITs 24,j 22,v 27,z 0
  RETURN
 K1238:IFq>=4:PRINT"Kolem nastupiste projel rychlik, ale nezastavuje.":RETURN:END
 K1239:IFq<4:PRINT"Zrovna zadny vlak nejede, musel bys pockat.":RETURN:END
  PRINT"Po vedlejsi koleji projel rychlik, na uzkokolejce je pusto.":RETURN
 K1240:GOSUB1009:PRINT" na vlakovem nadrazi u koleji.":GOSUB1238
- LETs=0:LETj=23:LETv=0:LETz=0
+ INITs 0,j 23,v 0,z 0
  RETURN
 K1250:PRINT"Jsi na disk-golfovem hristi nad rekou Nezarkou, vidis travu, stromy a kose."
- LETs=0:LETj=40:LETv=22:LETz=0
+ INITs 0,j 40,v 22,z 0
  RETURN
 K1260:GOSUB1009:PRINT" u supermarketu v sidlisti."
  IFf7==0:PRINT"Je tu nakupni vozik. Cestu ti zastoupil Sillicon s pratelskym pronesenim vety:
-- Chtel bych si nakoupit. -":LETs=0:LETj=0:LETv=0:LETz=0:END
- IFf7>0:PRINT"Nakupni vozik tu neni.":LETs=0:LETj=51:LETv=0:LETz=22:END
+- Chtel bych si nakoupit. -":INITs 0,j 0,v 0,z 0:END
+ IFf7>0:PRINT"Nakupni vozik tu neni.":INITs 0,j 51,v 0,z 22:END
  RETURN
 K1270:GOSUB1009:PRINT" na autobusovem nadrazi. Na zapade je nadrazi, na
 vychode uzkokolejka. Na severu stoji autobus do Ceskych Budejovic."
- LETs=28:LETj=0:LETv=29:LETz=23
+ INITs 28,j 0,v 29,z 23
  RETURN
 K1280:PRINT"Z nastupiste jsi nastoupil do autobusu. Bez jizdenky te ale ridic vyvedl ven.":LETm=27
  GOTO1270
 K1290:GOSUB1009:PRINT" na nastupisti uzkokolejky.":GOSUB1239
- LETs=0:LETj=0:LETv=0:LETz=27
+ INITs 0,j 0,v 0,z 27
  RETURN
 K1300:PRINT"Jsi v Ceskych Budejovicich u Klubu malych pivovaru. Maji tu Nachmelenou opici a
 zavreno."
- LETs=0:LETj=0:LETv=7:LETz=8
+ INITs 0,j 0,v 7,z 8
  RETURN
 K1400:PRINT"Jsi u reky Nezarky, v parku pod gymnaziem Vitezslava Novaka."
- LETs=25:LETj=41:LETv=21:LETz=0
+ INITs 25,j 41,v 21,z 0
  RETURN
 K1410:PRINT"Jsi v parku u reky Nezarky, na vychode je brana do mesta Jindrichova Hradce."
- LETs=40:LETj=42:LETv=56:LETz=0
+ INITs 40,j 42,v 56,z 0
  RETURN
 K1420:GOSUB1009:PRINT" u Maleho Vajgaru, pod jindrichohradeckym zamkem."
- LETs=21:LETj=0:LETv=43:LETz=0
+ INITs 21,j 0,v 43,z 0
  RETURN
 K1430:PRINT"Jsi mezi Malym a Velkym Vajgarem, na severu je brana do mesta Jindrichova
 Hradce."
- LETs=55:LETj=44:LETv=45:LETz=42
+ INITs 55,j 44,v 45,z 42
  RETURN
 K1440:GOSUB1009:PRINT" u hvezdarny prof. Frantiska Nusla. Lezi na 15.
 poledniku.":LETf8=1
- LETs=43:LETj=0:LETv=0:LETz=0
+ INITs 43,j 0,v 0,z 0
  RETURN
 K1450:GOSUB1009:PRINT" u nemocnice. Ta sice nelezi presne na 15. poledniku,
 ale zato tu kdysi pouzivali pocitace Sord m5 a Sord m68MX."
- LETs=0:LETj=0:LETv=46:LETz=43
+ INITs 0,j 0,v 46,z 43
  RETURN
 K1460:PRINT"Obchazis Velky Vajgar. Na zapade je nemocnice, na severu sidliste, na jihu
 cesta z mesta. (Nebo z mesta cesta.)"
- LETs=58:LETj=47:LETv=0:LETz=45
+ INITs 58,j 47,v 0,z 45
  RETURN
 K1470:PRINT"Cesta vede dal na jih, ale vse je zasypane snehem, dal neprojdes."
- LETs=46:LETj=0:LETv=0:LETz=0
+ INITs 46,j 0,v 0,z 0
  RETURN
 K1480:PRINT"Cesta vede dal tam, kde se konava KapliCon, ale vse je zasypane snehem, dal
 neprojdes."
- LETs=7:LETj=0:LETv=0:LETz=0
+ INITs 7,j 0,v 0,z 0
  RETURN
 K1490:PRINT"Cesta vede dal tam, kde se schazeji ataristi na Platariade, ale vse je zasypane
 snehem, dal neprojdes."
- LETs=8:LETj=0:LETv=0:LETz=0
+ INITs 8,j 0,v 0,z 0
  RETURN
 K1500:PRINT"Jsi nekde mezi byvalym frantiskanskym klasterem a byvalym hejtmanstvim, obe
 budovy uz slouzi novym ucelum."
- LETs=51:LETj=52:LETv=0:LETz=21
+ INITs 51,j 52,v 0,z 21
  RETURN
 K1510:PRINT"Jsi v sidlisti v Jindrichove Hradci. Na severu je supermarket, na jihu
 frantiskansky klaster a byvale hejtmanstvi."
- LETs=26:LETj=50:LETv=57:LETz=0
+ INITs 26,j 50,v 57,z 0
  RETURN
 K1520:GOSUB1009:PRINT", v parku u Horniho namesti."
- LETs=50:LETj=61:LETv=53:LETz=60
+ INITs 50,j 61,v 53,z 60
  RETURN
 K1530:GOSUB1009:PRINT" u mestskych hradeb."
- LETs=0:LETj=54:LETv=0:LETz=52
+ INITs 0,j 54,v 0,z 52
  RETURN
 K1540:PRINT"Jsi u Velkeho Vajgaru pod klasterem minoritu."
- LETs=53:LETj=0:LETv=0:LETz=55
+ INITs 53,j 0,v 0,z 55
  RETURN
 K1550:GOSUB1009:PRINT" u Dolniho namesti pobliz vstupu do zamku."
- LETs=63:LETj=43:LETv=54:LETz=56
+ INITs 63,j 43,v 54,z 56
  RETURN
 K1560:PRINT"Prochazis jindrichohradeckou mestskou branou."
- LETs=0:LETj=0:LETv=55:LETz=41
+ INITs 0,j 0,v 55,z 41
  RETURN
 K1570:GOSUB1009:PRINT", stale jsi v sidlisti."
- LETs=0:LETj=58:LETv=0:LETz=51
+ INITs 0,j 58,v 0,z 51
  RETURN
 K1580:GOSUB1009:PRINT", porad jsi v sidlisti."
- LETs=57:LETj=46:LETv=0:LETz=0
+ INITs 57,j 46,v 0,z 0
  RETURN
 K1590:PRINT"Jsi u koleji Vysoke skoly ekonomicke v Jindrichove Hradci."
- LETs=21:LETj=60:LETv=0:LETz=0
+ INITs 21,j 60,v 0,z 0
  RETURN
 K1600:PRINT"Jsi v mestskem parku u hradeb, u lidove skoly umeni."
- LETs=59:LETj=0:LETv=52:LETz=0
+ INITs 59,j 0,v 52,z 0
  RETURN
 K1610:PRINT"Jsi u kavarny jindrichohradecke mistni drahy."
- LETs=52:LETj=62:LETv=0:LETz=0
+ INITs 52,j 62,v 0,z 0
  RETURN
 K1620:PRINT"Jsi v Kostelni ulici pred Udirnou, kostel je na jihu."
- LETs=61:LETj=63:LETv=64:LETz=0
+ INITs 61,j 63,v 64,z 0
  RETURN
 K1630:PRINT"Jsi na 15. poledniku u kostela Nanebevzeti Panny Marie.":LETf9=1
- LETs=62:LETj=55:LETv=0:LETz=0
+ INITs 62,j 55,v 0,z 0
  RETURN
 K1640:PRINT"Jsi ve vstupu do Udirny."
- LETs=0:LETj=0:LETv=65:LETz=62
+ INITs 0,j 0,v 65,z 62
  IFf8>0ANDf9>0:RETURN:END
  PRINT"Ve dverich stoji Ikon a pta se: - A na patnastom poludniku uz si bol? -":LETv=0
  RETURN
 K1650:PRINT"Jsi v Udirne."
- LETs=0:LETj=0:LETv=66:LETz=64
+ INITs 0,j 0,v 66,z 64
  IFf7==0:PRINT"Jsou tu skoro vsichni, jen Sillicona nevidis. Logout se pta: - A kde mas
 commodoristu? -":LETv=0:END
  IFf7==1:PRINT"Uz jsou tu vsichni. Logout vola: - No kde jsi, clovece, cekame na tebe. Pojd si
