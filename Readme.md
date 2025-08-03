@@ -2,21 +2,25 @@
 
 8-bit CP/M Text Adventure Compiler
 
+Also MS-DOS Text Adventure Compiler
+
 This project is an exploration of what it would take to create a program for an 8-bit computer from scratch. Specifically, the goal is to design a custom programming language and create a compiler that transforms source code written in this language into a binary executable that can run on a CP/M based 8-bit computer.
 
 The final binary can be executed on many CP/M systems with a Z80 processor. This project also includes a text adventure games written using the custom programming language as examples.
+
+Update: Only for CP/M initially, now the project has been extended with a compiler outputting MS-DOS binaries too.
 
 ## Features
 
 * Custom Programming Language: A simple programming language designed specifically for this project. The language provides enough functionality to create simple text adventure games.
 
-* Compiler: A program that runs on a modern PC and compiles source code written in the custom language into a binary executable. The executable can run on an 8-bit CP/M system with a Z80 processor.
+* Compiler: A program that runs on a modern PC and compiles source code written in the custom language into a binary executable. The CP/M executable can run on an 8-bit CP/M system with a Z80 processor. The MS-DOS executable can run on a system with an i8088 processor.
 
 * Text Adventure Examples: Sample games are provided to demonstrate the capabilities of the language.
 
 ## Limitations
 
-* The compiler is limited to generating code that runs on CP/M with a Z80 processor. It does not support CP/M on other CPUs or other operating systems.
+* The CP/M compiler is limited to generating code that runs on CP/M with a Z80 processor. It does not support CP/M on other CPUs.
 
 * The generated CP/M binary uses Z80 instruction Rst30h. The binary is incompatible with systems that already use the same instruction for other purposes.
 
@@ -30,7 +34,9 @@ The final binary can be executed on many CP/M systems with a Z80 processor. This
 
 ## Project structure
 
-* Ltmz.tcl - Contains the code for the compiler that transforms the source code into a binary executable.
+* Ltmz.tcl - Contains the code for the compiler that transforms the source code into a CP/M binary executable.
+
+* Ltmz-dos.tcl - Contains the code for the compiler that transforms the source code into an MS-DOS binary executable.
 
 * game_jhcon.txt - Contains the source code of a sample text adventure game written in the custom language. The game is in Czech, with text output and command inputs expected in Czech. It was created by dex and is not covered by the same license as the rest of this repository.
 

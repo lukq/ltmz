@@ -1,44 +1,34 @@
 # Ltmz
-# 8-bit CP/M Text Adventure Compiler, version 5.0
+# MS-DOS Text Adventure Compiler, version 5.0
 # August 2025
 # by Lukas Petru
 
 # Licensed under the MIT License (Expat)
 
 array set code {
- ldv 2a  ldc 21   byv {ed 5b} byc 11
- st 22   ex eb    bc 1    addbc 9
- ret c9  call cd  jp c3   jphl e9
- rc bf   sc 37    add 19  sbc {ed 52}
- jpnc d2 jpc da   jpnz c2 jpz ca
- inc 23  dec 2b   pop e1  push e5
- lddm 56 ldem 5e  ldlm 6e ldhb 60
- nul 0   ld_mb 70 rst30 f7
+ ldv a1      ldc b8     byv {8b 1e} byc bb
+ st a3       ex 93      exdx 92 inter {cd 21}
+ ret c3      call e8    jp e9 jpmde {ff 27}
+ jpbe {76 3} jpa {77 3} add {1 d8} sbc {19 d8}
+ jpc {72 3}  jpnc {73 3} jpz {74 3} jpnz {75 3}
+ inc 40      dec 48     pop 58 push 50
+ ldax_m {8b 07} ld_em {8a 1f b7 0} sub {29 d8}
 }
 proc asmsrc s {
  foreach {x r} {
-  { by 0 < }      { jp }
-  { by (\d+) < }  { byc -\1 add jpc }
-  { by 0 >= \w+}  {}
-  { by (\d+) >= } { byc -\1 add jpnc }
-  { by (\d+) <= } { byc ~\1 add jpc }
-  { by (\d+) > }  { byc ~\1 add jpnc }
-  { by (\d+) != } { byc ~\1 add addbc jpc }
-  { by (\d+) == } { byc ~\1 add addbc jpnc }
-  == {rc sbc jpnz}
-  != {rc sbc jpz}
-  { by (\d+) rc sbc } { byc -\1 add }
-  >= {rc sbc jpc}
-  <= {sc sbc jpnc}
-  <  {rc sbc jpnc}
-  >  {sc sbc jpc}
+  == {sub jpz}
+  != {sub jpnz}
+  >= {sub jpnc}
+  <= {sub jpbe}
+  <  {sub jpc}
+  >  {sub jpa}
   { ld (\d)} { ldc \1}
   { ld } { ldv }
   { by (\d)} { byc \1}
   { by } { byv }
-  { ld_dem } { ldem inc lddm }
-  { ld_lm } { ldlm ldhb }
-  { call Print } { rst30 }
+
+  { jp[bn]?\w } {\0jp }
+  { (call|jp) } {\0$}
  } {regsub -all $x $s $r s}
  set s
 }
@@ -53,7 +43,8 @@ proc dt s {
 }
 proc asmeval s {
  foreach x $s {switch -glob $x {
-   *: {lb $x} [a-z]* {db $x} [-~0-9]* {dv $x} %* {dt $x} * {dw $x 0}}
+   *: {lb $x} [a-z]* {db $x} [0-9]* {dv $x} %* {dt $x}
+   $* {dw [scan $x $%s] [expr {2+[lb H]}]} * {dw $x 0}}
  }
 }
 proc assemble s {
@@ -69,13 +60,14 @@ proc GOSUB n {lappend ::b call K$n}
 proc GOTO n {lappend ::b jp K$n}
 proc IF {a o b} {lappend ::b "ld [n $a] by [n $b] $o F$::fc"}
 proc INIT args {
- lmap {x y} $args {append n $x;lappend w $y;lappend c ld_dem inc ex st $x ex}
- lappend ::b "call I$n $w";set ::v(I$n:) "pop $c jphl"}
+ lmap {x y} $args {append n $x;lappend w $y
+  lappend c ex ldax_m st $x ex inc inc}
+ lappend ::b "call I$n $w";set ::v(I$n:) "pop $c push ret"}
 proc INPUT "" {lappend ::b call Input}
 proc K n {lappend ::b K$n:}
 proc LET {a e b "o 0" "c 0"} {
  lappend ::b "ld [n $b][
-  expr {$c==0?"":$o=="+"?" by [n $c] add":" by [n $c] rc sbc"}] st $a"}
+  expr {$c==0?"":$o=="+"?" by [n $c] add":" by [n $c] sub"}] st $a"}
 proc MATCH {a s} {
  lappend ::b "call Match $s ex st $a"}
 proc NEXT "" {lappend ::b N$::nc:;incr ::nc}
@@ -107,24 +99,20 @@ proc compile s {
 }
 
 set runtime [join "
- ldc jp nul st 0x30
- ldc Print st 0x31
- bc 1 
  jp Start
 
 Prin1:
  dec st Txt
  jp L2
 L1:
- call Princ
+ ex call Princ
 L2:
  call M1
  ld 128 <= L1
- ld 128 add ex
+ ld 128 add
 Princ:
- bc 2
-Bdos:
- call 5 bc 1 ret
+ exdx ld 0x200
+ inter ret
 Print:
  pop push call Prin1
  call Prins 0x8a0d
@@ -134,16 +122,16 @@ Prins:
  jp Exit
 
 M1:
- ld Txt inc st Txt ld_lm ex
+ ld Txt inc st Txt ex ld_em
  ret
 Match:
  pop push dec st Txt
  ld Buf st P
 M2:
  call M1
- ld P inc st P ld_lm
+ ld P inc st P ex ld_em
  != M2
- ld 0xff80 add ex ld P ld_lm == M3
+ ld 128 add by Txt ld_em == M3
  ld P st Buf ld 0
 M3:
  st P
@@ -151,22 +139,20 @@ Exit:
  pop dec st Txt
 M4:
  call M1
- ex by 128 >= M4
+ ld 128 <= M4
  by P
  ld Txt inc
- jphl
+ push ret
 
 Input:
  ld 125 st 128
- by 128 bc 10 call Bdos
  ld 129 st Buf
- ld_lm by 130 add ld_mb
- ret
+ dec exdx ld 0xa00
+ inter ret
 
 Ongoto:
- dec ex pop add add
- ld_dem ex
- jphl
+ dec ex pop add add ex
+ jpmde
 
 P: 0
 Txt: 0

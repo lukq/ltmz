@@ -1,4 +1,3 @@
-
  REM Text adventure game designed by dex, modifications by lukz
  GOSUB31
 K1
@@ -120,15 +119,15 @@ NEXT
 
 K130:GOSUB131:IFu>=1:GOSUB140:IFh<1:SKIP:END
  PRINT"Nemas to":RETURN
-K131:LETu=1:MATCHd"z":IFd>0
- LETu=2:MATCHd"s":IFd>0
- LETu=3:MATCHd"c":IFd>0
- LETu=4:MATCHd"k":IFd>0
- LETu=5:MATCHd"m":IFd>0
- LETu=6:MATCHd"p":IFd>0
- LETu=7:MATCHd"t":IFd>0
- LETu=8:MATCHd"j":IFd>0
- LETu=9:MATCHd"r":IFd>0
+K131:LETu=1:MATCHd"z":IFd>=1
+ LETu=2:MATCHd"s":IFd>=1
+ LETu=3:MATCHd"c":IFd>=1
+ LETu=4:MATCHd"k":IFd>=1
+ LETu=5:MATCHd"m":IFd>=1
+ LETu=6:MATCHd"p":IFd>=1
+ LETu=7:MATCHd"t":IFd>=1
+ LETu=8:MATCHd"j":IFd>=1
+ LETu=9:MATCHd"r":IFd>=1
  LETu=0
  END:RETURN
 K140:ONuGOTO 141,142,143,144,145,146,147,148,149
